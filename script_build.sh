@@ -21,6 +21,8 @@ make  clean && make clobber
 # make -j8 libinit_msm8916
 #export WITH_MAGISK=true
 #export WITH_SU=true
+export OTA_TYPE=Official
+#export OTA_TYPE=experimental
 #lunch xhd_lettuce-userdebug
 breakfast lettuce
 make bacon -j8
