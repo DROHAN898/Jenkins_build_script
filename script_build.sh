@@ -3,25 +3,32 @@
 # ccache
 export USE_CCACHE=1
 export CCACHE_DIR=/home/ccache/rohan  
-prebuilts/misc/linux-x86/ccache/ccache -M 50G
 
 export KBUILD_BUILD_USER=#Rohan
 export KBUILD_BUILD_HOST=UbuntuZeus
 
-#Clean
-make  clean && make clobber
-
-# Killing...
-prebuilts/sdk/tools/jack-admin kill-server
-# Starting...
-prebuilts/sdk/tools/jack-admin start-server
+echo -e "Checking device trees"
+if [ -d "device/motorola/sanders" ];
+then
+        device="sanders"
+elif [ -d "device/xiaomi/tissot" ];
+then
+        device="tissot"
+else
+        echo -e "\nEnter the device name"
+        read device
+        echo -e "\nEnter the branch name"
+        read branch
+        if [ device=="sanders" ];
+        then
+        git clone https://github.com/DRohan007/android_device_motorola_sanders -b $branch device/motorola/sanders
+        git clone https://github.com/DRohan007/proprietary_vendor_motorola_sanders -b $branch vendor/motorola/sanders
+        fi
+fi
 
 # build
 . build/envsetup.sh
-#export WITH_MAGISK=true
-#export WITH_SU=true
-#export OTA_TYPE=Official
-#export OTA_TYPE=experimental
-#breakfast lettuce
+#Clean
+make  clean && make clobber
 lunch lineage_$device-userdebug
 make bacon -j8
